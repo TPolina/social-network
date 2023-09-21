@@ -22,6 +22,12 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserRetrieveUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ("id", "username", "email", "first_name", "last_name")
+
+
 class UserActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
