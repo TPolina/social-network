@@ -4,7 +4,7 @@ import random
 import requests
 from faker import Faker
 
-CONFIG_FILE = "config.json"
+CONFIG_FILE = "bot/config.json"
 
 BASE_URL = "http://localhost:8000/api/"
 
