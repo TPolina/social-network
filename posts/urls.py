@@ -8,7 +8,7 @@ router.register("posts", PostViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("analytics/", AnalyticsView.as_view(), name="analytics")
+    path("analytics/", AnalyticsView.as_view(), name="analytics"),
 ]
 
 app_name = "posts"

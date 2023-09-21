@@ -46,8 +46,7 @@ class PostViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(
-            {"detail": "Post is already liked"},
-            status=status.HTTP_409_CONFLICT
+            {"detail": "Post is already liked"}, status=status.HTTP_409_CONFLICT
         )
 
     @action(
@@ -64,14 +63,10 @@ class PostViewSet(viewsets.ModelViewSet):
 
         if like:
             like.delete()
-            return Response(
-                {"detail": "Post is unliked"},
-                status=status.HTTP_200_OK
-            )
+            return Response({"detail": "Post is unliked"}, status=status.HTTP_200_OK)
 
         return Response(
-            {"detail": "Post wasn't liked"},
-            status=status.HTTP_409_CONFLICT
+            {"detail": "Post wasn't liked"}, status=status.HTTP_409_CONFLICT
         )
 
 
@@ -90,19 +85,19 @@ class AnalyticsView(generics.GenericAPIView):
         except (TypeError, ValueError):
             return
 
-        return Like.objects.filter(
-            created_at__range=(date_from, date_to)
-        ).annotate(
-            day=TruncDay("created_at")
-        ).values("day").annotate(likes=Count("id"))
+        return (
+            Like.objects.filter(created_at__range=(date_from, date_to))
+            .annotate(day=TruncDay("created_at"))
+            .values("day")
+            .annotate(likes=Count("id"))
+        )
 
     def get(self, request):
         queryset = self.get_queryset()
 
         if queryset is None:
             return Response(
-                {"detail": "Invalid date format"},
-                status=status.HTTP_400_BAD_REQUEST
+                {"detail": "Invalid date format"}, status=status.HTTP_400_BAD_REQUEST
             )
 
         analytics_data = [
@@ -112,8 +107,7 @@ class AnalyticsView(generics.GenericAPIView):
 
         if not analytics_data:
             return Response(
-                {"detail": "No likes during this period"},
-                status=status.HTTP_200_OK
+                {"detail": "No likes during this period"}, status=status.HTTP_200_OK
             )
 
         return Response(analytics_data, status=status.HTTP_200_OK)
